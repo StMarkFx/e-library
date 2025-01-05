@@ -1,49 +1,72 @@
 # Reflex app entry point
 
-import os
-from reflex import Reflex, State
+import reflex as pc
+from state import State
+from pages import auth, home, profile, search, upload, admin
+from components import navbar, footer
 
-# File storage directory (ensure this exists on the server)
-UPLOAD_DIR = "uploads"
+# Define routes for the app
+def index():
+    return pc.fragment(
+        navbar.render(),
+        home.home_page(),
+        footer.render(),
+    )
 
-class BookUploadState(State):
-    message = ""
 
-    def upload_book(self, data):
-        # Extract details from the form
-        title = data["title"]
-        author = data["author"]
-        faculty = data["faculty"]
-        department = data["department"]
-        description = data["description"]
-        file = data["file"]  # File object from the user
+def profile_page():
+    return pc.fragment(
+        navbar.render(),
+        profile.profile_page(),
+        footer.render(),
+    )
 
-        # Ensure upload directory exists
-        os.makedirs(UPLOAD_DIR, exist_ok=True)
 
-        # Save the uploaded file
-        file_path = os.path.join(UPLOAD_DIR, file["filename"])
-        with open(file_path, "wb") as f:
-            f.write(file["content"])
+def search_page():
+    return pc.fragment(
+        navbar.render(),
+        search.search_page(),
+        footer.render(),
+    )
 
-        # Generate a download URL (adjust for production)
-        download_url = f"/{UPLOAD_DIR}/{file['filename']}"
 
-        # Save book details to the database (pseudo-code)
-        save_to_database(
-            title=title,
-            author=author,
-            faculty=faculty,
-            department=department,
-            description=description,
-            download_url=download_url,
-        )
+def upload_page():
+    return pc.fragment(
+        navbar.render(),
+        upload.upload_page(),
+        footer.render(),
+    )
 
-        # Update state message
-        self.message = "Book uploaded successfully!"
 
-# Pseudo-function to save to the database
-def save_to_database(**kwargs):
-    print("Saved book to database:", kwargs)
+def admin_page():
+    return pc.fragment(
+        navbar.render(),
+        admin.admin_page(),
+        footer.render(),
+    )
 
-app = Reflex(state=BookUploadState)
+
+def auth_page():
+    return auth.auth_page()
+
+
+# Configure the Reflex app
+app = pc.App(state=State)
+
+# Add routes
+app.add_page(index, route="/", title="E-Library Home")
+app.add_page(auth_page, route="/auth", title="Login/Sign Up")
+app.add_page(profile_page, route="/profile", title="User Profile")
+app.add_page(search_page, route="/search", title="Search Books")
+app.add_page(upload_page, route="/upload", title="Upload Books")
+app.add_page(admin_page, route="/admin", title="Admin Dashboard")
+
+# Add static assets
+app.compile(
+    static_dir="./assets",
+    output_dir="./build",
+)
+
+# Run the app
+if __name__ == "__main__":
+    app.run()
