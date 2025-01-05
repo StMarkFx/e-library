@@ -1,4 +1,4 @@
-from reflex import pc
+from reflex import rx
 from reflex.state import State
 
 
@@ -35,11 +35,11 @@ class SearchState(State):
 # Reusable Book Card
 def book_card(book):
     """Reusable component for displaying a single book."""
-    return pc.box(
-        pc.vstack(
-            pc.text(book["title"], font_weight="bold", font_size="lg"),
-            pc.text(f"Author: {book['author']}", font_size="sm", color="gray.600"),
-            pc.button("View Details", bg="blue.500", color="white", size="sm"),
+    return rx.box(
+        rx.vstack(
+            rx.text(book["title"], font_weight="bold", font_size="lg"),
+            rx.text(f"Author: {book['author']}", font_size="sm", color="gray.600"),
+            rx.button("View Details", bg="blue.500", color="white", size="sm"),
         ),
         padding="1rem",
         box_shadow="sm",
@@ -51,23 +51,23 @@ def book_card(book):
 
 # Search Page
 def search_page():
-    return pc.box(
-        pc.vstack(
-            pc.box(
-                pc.hstack(
-                    pc.input(
+    return rx.box(
+        rx.vstack(
+            rx.box(
+                rx.hstack(
+                    rx.input(
                         value=SearchState.query,
                         placeholder="Search for books...",
                         on_change=lambda query: setattr(SearchState, "query", query),
                         width="70%",
                     ),
-                    pc.button(
+                    rx.button(
                         "Search",
                         on_click=SearchState.perform_search,
                         bg="blue.500",
                         color="white",
                     ),
-                    pc.button(
+                    rx.button(
                         "Clear",
                         on_click=SearchState.clear_search,
                         bg="red.500",
@@ -80,10 +80,10 @@ def search_page():
                 width="100%",
                 box_shadow="md",
             ),
-            pc.divider(),
-            pc.cond(
+            rx.divider(),
+            rx.cond(
                 SearchState.search_results,
-                pc.grid(
+                rx.grid(
                     *[
                         book_card(book)
                         for book in SearchState.search_results
@@ -91,7 +91,7 @@ def search_page():
                     template_columns="repeat(auto-fit, minmax(200px, 1fr))",
                     gap="1rem",
                 ),
-                pc.text(
+                rx.text(
                     "No results found. Try searching for something else!",
                     font_size="lg",
                     color="gray.600",

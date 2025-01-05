@@ -1,5 +1,3 @@
-# Combines navbar, footer, faculty menu
-
 import os
 import uuid
 import mimetypes

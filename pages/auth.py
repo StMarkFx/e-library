@@ -1,6 +1,6 @@
 # Combines Sign-Up, Login, Password Reset
 
-from reflex import pc
+from reflex import rx
 from reflex.state import State
 
 
@@ -61,15 +61,15 @@ class AuthState(State):
 # Reusable Form Layout
 def auth_form(title, inputs, button_label, action, footer_text, footer_link, footer_action):
     """Reusable form layout."""
-    return pc.box(
-        pc.vstack(
-            pc.text(title, font_size="2xl", font_weight="bold"),
+    return rx.box(
+        rx.vstack(
+            rx.text(title, font_size="2xl", font_weight="bold"),
             *inputs,
-            pc.button(button_label, on_click=action, bg="blue", color="white"),
-            pc.text(AuthState.error_message, color="red"),
-            pc.hstack(
-                pc.text(footer_text, font_size="sm"),
-                pc.link(footer_link, on_click=footer_action, font_size="sm", color="blue"),
+            rx.button(button_label, on_click=action, bg="blue", color="white"),
+            rx.text(AuthState.error_message, color="red"),
+            rx.hstack(
+                rx.text(footer_text, font_size="sm"),
+                rx.link(footer_link, on_click=footer_action, font_size="sm", color="blue"),
                 spacing="0.5rem",
             ),
             spacing="1rem",
@@ -88,9 +88,9 @@ def signup_page():
     return auth_form(
         title="Sign-Up",
         inputs=[
-            pc.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
-            pc.input(placeholder="Password", type_="password", on_change=lambda e: AuthState.set_state(password=e.target.value)),
-            pc.input(placeholder="Confirm Password", type_="password", on_change=lambda e: AuthState.set_state(confirm_password=e.target.value)),
+            rx.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
+            rx.input(placeholder="Password", type_="password", on_change=lambda e: AuthState.set_state(password=e.target.value)),
+            rx.input(placeholder="Confirm Password", type_="password", on_change=lambda e: AuthState.set_state(confirm_password=e.target.value)),
         ],
         button_label="Sign-Up",
         action=AuthState.signup,
@@ -105,8 +105,8 @@ def login_page():
     return auth_form(
         title="Login",
         inputs=[
-            pc.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
-            pc.input(placeholder="Password", type_="password", on_change=lambda e: AuthState.set_state(password=e.target.value)),
+            rx.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
+            rx.input(placeholder="Password", type_="password", on_change=lambda e: AuthState.set_state(password=e.target.value)),
         ],
         button_label="Login",
         action=AuthState.login,
@@ -121,7 +121,7 @@ def reset_password_page():
     return auth_form(
         title="Reset Password",
         inputs=[
-            pc.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
+            rx.input(placeholder="Email", on_change=lambda e: AuthState.set_state(email=e.target.value)),
         ],
         button_label="Send Reset Link",
         action=AuthState.reset_password,

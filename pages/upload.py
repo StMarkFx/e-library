@@ -1,4 +1,4 @@
-from reflex import pc
+from reflex import rx
 from reflex.state import State
 
 
@@ -43,47 +43,47 @@ class UploadState(State):
 
 # Upload Form
 def upload_form():
-    return pc.vstack(
-        pc.text("Upload a Book", font_size="2xl", font_weight="bold", margin_bottom="1rem"),
-        pc.form(
-            pc.vstack(
-                pc.input(
+    return rx.vstack(
+        rx.text("Upload a Book", font_size="2xl", font_weight="bold", margin_bottom="1rem"),
+        rx.form(
+            rx.vstack(
+                rx.input(
                     placeholder="Book Title",
                     value=UploadState.book_title,
                     on_change=lambda title: setattr(UploadState, "book_title", title),
                 ),
-                pc.input(
+                rx.input(
                     placeholder="Author Name",
                     value=UploadState.book_author,
                     on_change=lambda author: setattr(UploadState, "book_author", author),
                 ),
-                pc.select(
+                rx.select(
                     options=["Science", "Arts", "Engineering", "Medicine"],
                     placeholder="Select Faculty",
                     value=UploadState.book_faculty,
                     on_change=lambda faculty: setattr(UploadState, "book_faculty", faculty),
                 ),
-                pc.select(
+                rx.select(
                     options=["Computer Science", "Civil Engineering", "English Literature", "Pharmacology"],
                     placeholder="Select Department",
                     value=UploadState.book_department,
                     on_change=lambda dept: setattr(UploadState, "book_department", dept),
                 ),
-                pc.file_upload(
+                rx.file_upload(
                     on_upload=UploadState.handle_file_upload,
                     accept=".pdf,.docx,.epub",
                     multiple=False,
                 ),
-                pc.button(
+                rx.button(
                     "Upload Book",
                     on_click=UploadState.upload_book,
                     bg="blue.500",
                     color="white",
                     width="100%",
                 ),
-                pc.cond(
+                rx.cond(
                     UploadState.upload_status,
-                    pc.text(
+                    rx.text(
                         UploadState.upload_status,
                         color="green.500" if "successfully" in UploadState.upload_status else "red.500",
                         font_size="sm",
@@ -104,7 +104,7 @@ def upload_form():
 
 # Upload Page
 def upload_page():
-    return pc.box(
+    return rx.box(
         upload_form(),
         padding="2rem",
         bg="gray.100",

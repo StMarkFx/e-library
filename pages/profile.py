@@ -1,4 +1,4 @@
-from reflex import pc
+from reflex import rx
 from reflex.state import State
 
 
@@ -45,13 +45,13 @@ class ProfileState(State):
 # Reusable Book List
 def book_list(title, books, button_action=None, button_label=None):
     """Reusable component to display a list of books."""
-    return pc.box(
-        pc.vstack(
-            pc.text(title, font_size="xl", font_weight="bold"),
+    return rx.box(
+        rx.vstack(
+            rx.text(title, font_size="xl", font_weight="bold"),
             *[
-                pc.hstack(
-                    pc.text(f"{book['title']} by {book['author']}"),
-                    pc.button(
+                rx.hstack(
+                    rx.text(f"{book['title']} by {book['author']}"),
+                    rx.button(
                         button_label,
                         on_click=lambda: button_action(book["title"])
                         if button_action
@@ -61,7 +61,7 @@ def book_list(title, books, button_action=None, button_label=None):
                         size="sm",
                     )
                     if button_action
-                    else pc.spacer(),
+                    else rx.spacer(),
                     justify="space-between",
                 )
                 for book in books
@@ -81,15 +81,15 @@ def profile_page():
     # Fetch profile data
     ProfileState.fetch_profile_data()
 
-    return pc.box(
-        pc.vstack(
-            pc.text(
+    return rx.box(
+        rx.vstack(
+            rx.text(
                 f"Welcome, {ProfileState.user_name}!",
                 font_size="2xl",
                 font_weight="bold",
             ),
-            pc.text("Here's a summary of your activity:", font_size="md"),
-            pc.divider(),
+            rx.text("Here's a summary of your activity:", font_size="md"),
+            rx.divider(),
             book_list("Reading/Download History", ProfileState.reading_history),
             book_list("Favorites", ProfileState.favorites, ProfileState.remove_favorite, "Remove"),
             book_list(

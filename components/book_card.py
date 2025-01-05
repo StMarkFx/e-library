@@ -1,6 +1,6 @@
 # Reusable book card component
 
-import reflex as pc
+import reflex as rx
 
 def BookCard(title, author, faculty, department, description, download_url=None, on_read=None, on_download=None):
     """
@@ -19,28 +19,28 @@ def BookCard(title, author, faculty, department, description, download_url=None,
     Returns:
         pc.Component: A Reflex (Pynecone) component representing the book card.
     """
-    return pc.box(
-        pc.vstack(
+    return rx.box(
+        rx.vstack(
             # Book title
-            pc.heading(title, size="lg", color="blue.600"),
+            rx.heading(title, size="lg", color="blue.600"),
             # Author and faculty/department
-            pc.text(f"Author: {author}", font_size="sm", color="gray.600"),
-            pc.text(f"Faculty: {faculty} | Department: {department}", font_size="sm", color="gray.500"),
+            rx.text(f"Author: {author}", font_size="sm", color="gray.600"),
+            rx.text(f"Faculty: {faculty} | Department: {department}", font_size="sm", color="gray.500"),
             # Book description (truncated for card display)
-            pc.text(
+            rx.text(
                 description[:120] + "..." if len(description) > 120 else description,
                 font_size="sm",
                 color="gray.700",
             ),
             # Action buttons: Read and Download
-            pc.hstack(
-                pc.button(
+            rx.hstack(
+                rx.button(
                     "Read",
                     on_click=on_read,
                     color_scheme="blue",
                     size="sm",
                 ) if on_read else None,
-                pc.button(
+                rx.button(
                     "Download",
                     on_click=on_download,
                     color_scheme="green",

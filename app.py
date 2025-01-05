@@ -1,6 +1,6 @@
 # Reflex app entry point
 
-import reflex as pc
+import reflex as rx
 from state import State
 from pages import auth, home, profile, search, upload, admin
 from components import navbar, footer
