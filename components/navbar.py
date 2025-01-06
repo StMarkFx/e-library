@@ -2,7 +2,7 @@ import reflex as rx
 
 def Navbar():
     """Generates a responsive navigation bar for the e-library app."""
-
+ 
     # Define navigation links
     nav_links = [
         ("Home", "/"),

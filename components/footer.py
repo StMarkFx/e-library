@@ -2,7 +2,7 @@ import reflex as rx
 
 def Footer():
     """Generates the footer of the e-library app with useful links, social media, and contact information."""
-    
+     
     # Footer content
     return rx.Footer(
         padding="20px",

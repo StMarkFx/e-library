@@ -37,7 +37,7 @@ version = "1.0.0"
 license = "MIT"
 
 # The repository URL of the app.
-repository = "https://github.com/your-username/my-reflex-app"
+repository = "https://github.com/StMarkFx/e-library"
 
 # The deployment target.
 deployment_target = "local"
