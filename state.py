@@ -25,14 +25,21 @@ class AppState(State):
         Log in a user by verifying credentials.
         """
         try:
-            user = session.query(User).filter_by(email=email).one()
+            user = session.query(User).filter(User.email == email).one()
             if check_password_hash(user.password_hash, password):
                 self.current_user = user
-                self.message = f"Welcome, {user.username}!"
+                self.message = "Login successful!"
             else:
-                self.message = "Invalid email or password."
+                self.message = "Incorrect password."
         except NoResultFound:
-            self.message = "User not found. Please sign up first."
+            self.message = "User not found."
+        except Exception as e:  # Catch broader exceptions
+            self.message = f"An error occurred: {e}"
+            print(f"Database error during login: {e}") # Log the error for debugging
+        finally:
+            session.close() # Ensure the session is closed even if errors occur
+
+
 
     def logout(self):
         """
@@ -59,34 +66,51 @@ class AppState(State):
         """
         Search for books by title, author, or department.
         """
-        results = (
-            session.query(Book)
-            .filter(
-                (Book.title.ilike(f"%{query}%"))
-                | (Book.author.ilike(f"%{query}%"))
-                | (Book.department.ilike(f"%{query}%"))
+        try:
+            results = (
+                session.query(Book)
+                .filter(
+                    (Book.title.ilike(f"%{query}%"))
+                    | (Book.author.ilike(f"%{query}%"))
+                    | (Book.department.ilike(f"%{query}%"))
+                )
+                .all()
             )
-            .all()
-        )
-        self.search_results = results
-        self.message = f"Found {len(results)} result(s) for '{query}'."
+            self.search_results = results
+            self.message = f"Found {len(results)} result(s) for '{query}'."
+        except Exception as e:
+            self.message = f"An error occurred during the search: {e}"
+            print(f"Database error during search: {e}") # Log the error for debugging
+        finally:
+            session.close() # Ensure the session is closed even if errors occur
+
+    
+
 
     def add_to_favorites(self, book_id):
         """
         Add a book to the user's favorites.
         """
-        if not self.current_user:
-            self.message = "Please log in to add favorites."
-            return
+        try:
+            if not self.current_user:
+                self.message = "Please log in to add favorites."
+                return
 
-        book = session.query(Book).get(book_id)
-        if book in self.current_user.favorites:
-            self.message = "Book already in favorites."
-            return
+            book = session.query(Book).get(book_id)
+            if book in self.current_user.favorites:
+                self.message = "Book already in favorites."
+                return
 
-        self.current_user.favorites.append(book)
-        session.commit()
-        self.message = f"Book '{book.title}' added to favorites."
+            self.current_user.favorites.append(book)
+            session.commit()
+            self.message = f"Book '{book.title}' added to favorites."
+        except Exception as e:
+            self.message = f"An error occurred adding to favorites: {e}"
+            print(f"Database error adding to favorites: {e}") # Log the error for debugging
+        finally:
+            session.close() # Ensure the session is closed even if errors occur
+
+
 
     def remove_from_favorites(self, book_id):
         """

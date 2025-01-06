@@ -1,6 +1,6 @@
 # Combines Sign-Up, Login, Password Reset
 
-from reflex import rx
+import reflex as rx
 from reflex.state import State
 
 

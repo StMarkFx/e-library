@@ -2,7 +2,7 @@ import os
 import uuid
 import mimetypes
 from datetime import datetime
-from reflex import pc
+import reflex as rx
 
 # Constants
 UPLOAD_DIR = "uploads"
@@ -13,9 +13,13 @@ os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 def generate_unique_filename(filename):
     """Generate a unique filename using UUID to avoid name conflicts."""
-    file_extension = os.path.splitext(filename)[1]
-    unique_filename = f"{uuid.uuid4()}{file_extension}"
-    return unique_filename
+    try:
+        file_extension = os.path.splitext(filename)[1]
+        unique_filename = f"{uuid.uuid4()}{file_extension}"
+        return unique_filename
+    except Exception as e:
+        print(f"Error saving file: {e}")
+        return None # Or raise a custom exception
 
 def validate_file_type(file):
     """Validate the uploaded file type."""
@@ -56,4 +60,4 @@ def create_message_component(message, message_type="info"):
     else:
         color = "blue"
 
-    return pc.alert(message, status=color)
+    return rx.alert(message, status=color)

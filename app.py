@@ -7,7 +7,7 @@ from components import navbar, footer
 
 # Define routes for the app
 def index():
-    return pc.fragment(
+    return rx.fragment(
         navbar.render(),
         home.home_page(),
         footer.render(),
@@ -15,7 +15,7 @@ def index():
 
 
 def profile_page():
-    return pc.fragment(
+    return rx.fragment(
         navbar.render(),
         profile.profile_page(),
         footer.render(),
@@ -23,7 +23,7 @@ def profile_page():
 
 
 def search_page():
-    return pc.fragment(
+    return rx.fragment(
         navbar.render(),
         search.search_page(),
         footer.render(),
@@ -31,7 +31,7 @@ def search_page():
 
 
 def upload_page():
-    return pc.fragment(
+    return rx.fragment(
         navbar.render(),
         upload.upload_page(),
         footer.render(),
@@ -39,7 +39,7 @@ def upload_page():
 
 
 def admin_page():
-    return pc.fragment(
+    return rx.fragment(
         navbar.render(),
         admin.admin_page(),
         footer.render(),
@@ -51,7 +51,7 @@ def auth_page():
 
 
 # Configure the Reflex app
-app = pc.App(state=State)
+app = rx.App(state=State)
 
 # Add routes
 app.add_page(index, route="/", title="E-Library Home")
