@@ -12,7 +12,7 @@ def Navbar():
         ("Profile", "/profile"),
     ]
 
-    # Navbar content
+    # Navbar content 
     return rx.Navbar(
         background_color="gray.800",
         color="white",
