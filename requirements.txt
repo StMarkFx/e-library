@@ -1,5 +1,5 @@
-reflex
-werkzeug
-sqlalchemy
-mimetypes
-uuid
+reflex==0.6.7
+pymongo
+bcrypt
+nltk
+pydantic
